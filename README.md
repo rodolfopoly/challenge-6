@@ -11,7 +11,9 @@ https://rodolfopoly.github.io/challenge-6/
 </ul>
 
 ## Screenshots
-<img src="./assets/Screen Shot 2022-04-27 at 7.59.44 PM" alt="Our entire project">
+
+<img width="1440" alt="Screen Shot 2022-04-27 at 7 59 44 PM" src="https://user-images.githubusercontent.com/98934009/166079992-0f517c90-23d6-4eb5-a436-3030c55b54fa.png">
+
 
 
 
