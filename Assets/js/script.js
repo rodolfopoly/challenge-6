@@ -20,8 +20,8 @@ function start(e) {
     e.preventDefault();
     var cityNameForm = $("#cityNameForm").val();
     $("#currentWeather").empty();
+    $("#forecast").empty();
     getCurrentWeather(cityNameForm);
-
 }
 
 
@@ -48,11 +48,11 @@ function getCurrentWeather(city) {
 
             currentWeatherEl.append(cityName, date, icon, temperature, wind, humidity)
 
-            getUvIndex();
+            getUvIndexAndForecast();
         });
 }
 
-function getUvIndex() {
+function getUvIndexAndForecast() {
     var requestUrlUvIndex = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude={minutely}&units=imperial&appid=" + apiKey;
     console.log(requestUrlUvIndex);
     fetch(requestUrlUvIndex)
@@ -73,10 +73,17 @@ function getUvIndex() {
             var uvIndex = $("<p>").text("Uv Index: ").addClass("m-2")
             uvIndex.append(uvIndexBox);
             currentWeatherEl.append(uvIndex);
+
+            for (var i = 0; i < 4; i++) {
+                var div = $("<div>").addClass("rounded bg-secondary text-white");
+                var date = 
+
+            }
         });
 }
 
 
+    
 
 
 
