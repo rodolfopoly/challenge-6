@@ -3,7 +3,7 @@ var apiKey = "368601d95cc25d28ac72ffc607f2cff8";
 var currentWeatherEl = $("#currentWeather");
 var latitude;
 var longitude;
-var savedCity=[];
+var savedCity = [];
 savedCity = JSON.parse(localStorage.getItem("savedCity"));
 var isAlreadyInTheList = false;
 
@@ -13,9 +13,9 @@ var isAlreadyInTheList = false;
 function charge() {
     if (savedCity !== null) {
         for (i = 0; i < savedCity.length; i++) {
-            var li = $("<li>").addClass("list-group-item m-1" ).text(savedCity[i].cityName);
+            var li = $("<li>").addClass("list-group-item m-1").text(savedCity[i].cityName);
             $("#cityList").prepend(li);
-          }
+        }
     }
 }
 
@@ -82,7 +82,7 @@ function getUvIndexAndForecast() {
                 var div = $("<div>").addClass("rounded bg-secondary text-white col m-2");
                 var dateResponse = ((data.daily[i].dt) * 1000);
                 var date = $("<p>").text(new Date(dateResponse).toLocaleDateString());
-                var iconLink ="https://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png";
+                var iconLink = "https://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png";
                 var icon = $("<img>").attr("src", iconLink);
                 var temp = $("<p>").text("Temp: " + Math.round(data.daily[i].temp.day) + "°F");
                 var wind = $("<p>").text("Wind: " + Math.round(data.daily[i].wind_speed) + "MPH");
@@ -98,9 +98,9 @@ function getUvIndexAndForecast() {
 function saveCity() {
     var cityName = $("#cityNameForm").val();
     console.log(cityName);
-    savedCity = JSON.parse(localStorage.getItem("savedCity"))|| [];
+    savedCity = JSON.parse(localStorage.getItem("savedCity")) || [];
     var city = {
-        cityName : cityName,
+        cityName: cityName,
     }
     isAlreadyInTheList = false;
     for (var i = 0; i < savedCity.length; i++) {
@@ -111,7 +111,7 @@ function saveCity() {
     }
     if (isAlreadyInTheList === false) {
         console.log(cityName);
-        if (cityName!=="") {
+        if (cityName !== "") {
             savedCity.push(city);
             localStorage.setItem("savedCity", JSON.stringify(savedCity));
             var li = $("<li>").addClass("list-group-item m-1").text(cityName);
@@ -127,7 +127,7 @@ if (savedCity !== null) {
 
 $("#searchButton").on("click", start);
 
-$(".list-group-item").on("click", function(e) {
+$(".list-group-item").on("click", function (e) {
 
     $("#currentWeather").empty();
     $("#forecast").empty();
@@ -135,4 +135,4 @@ $(".list-group-item").on("click", function(e) {
     var cityButton = $(this).text();
     console.log(cityButton);
     getCurrentWeather(cityButton);
-  });
+});
