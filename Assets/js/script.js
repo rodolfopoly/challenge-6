@@ -1,26 +1,30 @@
-// GIVEN a weather dashboard with form inputs
-// WHEN I search for a city
-// THEN I am presented with current and future conditions for that city and that city is added to the search history
-// WHEN I view current weather conditions for that city
-// THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-// WHEN I view the UV index
-// THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-// WHEN I view future weather conditions for that city
-// THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
-// WHEN I click on a city in the search history
-// THEN I am again presented with current and future conditions for that city
 
 var apiKey = "368601d95cc25d28ac72ffc607f2cff8";
 var currentWeatherEl = $("#currentWeather");
 var latitude;
 var longitude;
+var savedCity=[];
+savedCity = JSON.parse(localStorage.getItem("savedCity"));
+var isAlreadyInTheList = false;
+
+
+
+
+function charge() {
+    if (savedCity !== null) {
+        for (i = 0; i < savedCity.length; i++) {
+            var li = $("<li>").addClass("list-group-item m-1" ).text(savedCity[i].cityName);
+            $("#cityList").prepend(li);
+          }
+    }
+}
 
 
 function start(e) {
     e.preventDefault();
-    var cityNameForm = $("#cityNameForm").val();
     $("#currentWeather").empty();
     $("#forecast").empty();
+    var cityNameForm = $("#cityNameForm").val();
     getCurrentWeather(cityNameForm);
 }
 
@@ -74,17 +78,61 @@ function getUvIndexAndForecast() {
             uvIndex.append(uvIndexBox);
             currentWeatherEl.append(uvIndex);
 
-            for (var i = 0; i < 4; i++) {
-                var div = $("<div>").addClass("rounded bg-secondary text-white");
-                var date = 
+            for (var i = 0; i < 6; i++) {
+                var div = $("<div>").addClass("rounded bg-secondary text-white col m-2");
+                var dateResponse = ((data.daily[i].dt) * 1000);
+                var date = $("<p>").text(new Date(dateResponse).toLocaleDateString());
+                var iconLink ="https://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png";
+                var icon = $("<img>").attr("src", iconLink);
+                var temp = $("<p>").text("Temp: " + Math.round(data.daily[i].temp.day) + "°F");
+                var wind = $("<p>").text("Wind: " + Math.round(data.daily[i].wind_speed) + "MPH");
+                var humidity = $("<p>").text("Humidity: " + data.daily[i].humidity + "%");
+                div.append(date, icon, temp, wind, humidity);
+                $("#forecast").append(div);
 
             }
+            saveCity();
         });
 }
 
+function saveCity() {
+    var cityName = $("#cityNameForm").val();
+    console.log(cityName);
+    savedCity = JSON.parse(localStorage.getItem("savedCity"))|| [];
+    var city = {
+        cityName : cityName,
+    }
+    isAlreadyInTheList = false;
+    for (var i = 0; i < savedCity.length; i++) {
+        console.log(savedCity[i].cityName);
+        if (cityName === savedCity[i].cityName) {
+            isAlreadyInTheList = true;
+        }
+    }
+    if (isAlreadyInTheList === false) {
+        console.log(cityName);
+        if (cityName!=="") {
+            savedCity.push(city);
+            localStorage.setItem("savedCity", JSON.stringify(savedCity));
+            var li = $("<li>").addClass("list-group-item m-1").text(cityName);
+            $("#cityList").prepend(li);
+        }
+    }
+}
 
-    
-
-
+charge();
+if (savedCity !== null) {
+    getCurrentWeather(savedCity[savedCity.length - 1].cityName);
+}
 
 $("#searchButton").on("click", start);
+
+$(".list-group-item").on("click", function(e) {
+
+    $("#currentWeather").empty();
+    $("#forecast").empty();
+    e.preventDefault();
+    var cityButton = $(this).text();
+    console.log(cityButton);
+    getCurrentWeather(cityButton);
+  });

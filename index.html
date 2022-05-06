@@ -15,32 +15,32 @@
 
 <body>
     <header>
-        <h1 class="text-center bg-primary p-4">Weather Dashboard</h1>
+        <h1 class="text-center bg-primary p-4 text-white">Weather Dashboard</h1>
     </header>
 
     <main class="container-fluid">
         <div class="row">
-            <div class="col-3">
+            <div class="col-2">
                 <h3 class="col-12 m-2 text-center">Search for a City:</h3>
                 <form class="m-2">
                     <input type="text" placeholder="Enter City Name" id="cityNameForm" class="col-12 ml-3">
                     <button class="col-12 btn btn-primary mt-2" id="searchButton" type="submit"> Search </button>
                 </form>
-                <div class="card">
-                    <ul class="list-group"></ul>
+                <div>
+                    <ul id="cityList" class="list-group"></ul>
                 </div>
             </div>
 
-            <div class="col-9">
-                <div >
-                    <div class="border border-3 border-primary m-2" id="currentWeather"></div>
+            <div class="col-10 level-right">
 
-                    <div>
-                        <h2 class="m-2 text-center">5 Days Forecast</h2>
-                        <div id="forecast" class="row m-2"></div>
-                    </div>
+                <div class="border border-3 border-primary m-2" id="currentWeather"></div>
 
+                <div>
+                    <h2 class="m-2 text-center">5 Days Forecast</h2>
+                    <div id="forecast" class="m-2 row"></div>
                 </div>
+
+
 
 
             </div>
